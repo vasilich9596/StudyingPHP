@@ -41,8 +41,14 @@ function validation_to_run_func()
         }
     }
 
-//if all right take result
-    $result = call_user_func_array($commandFunction['nameFunc'],$commandInfo['arguments']);
+    //if all right take result
+        $result = call_user_func_array($commandFunction['nameFunc'],$commandInfo['arguments']);
 
-    print $commandInfo['commandName']. ' result '. $result.PHP_EOL;
+    if ($commandInfo['commandName'] != 'history') {
+        file_put_contents('history.txt', $commandInfo['commandName'] . ' result ' . $result . PHP_EOL, FILE_APPEND);
+
+        print $commandInfo['commandName'] . ' result ' . $result . PHP_EOL;
+    }
+
+
 }

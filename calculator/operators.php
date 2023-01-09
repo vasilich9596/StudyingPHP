@@ -1,5 +1,6 @@
 <?php
 
+
 function calculator_add($ls, $rs){
     return $ls + $rs ;
 }
@@ -63,3 +64,15 @@ function calculator_log($ls): float
 {
     return log($ls);
 }
+
+function history($rs)
+{
+    $history = file_get_contents('history.txt');
+
+    $h = explode("\n",$history);
+
+    print_r($h[$rs].PHP_EOL);
+
+
+}
+
