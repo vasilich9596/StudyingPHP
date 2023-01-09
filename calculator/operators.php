@@ -69,10 +69,17 @@ function history($rs)
 {
     $history = file_get_contents('history.txt');
 
-    $h = explode("\n",$history);
 
-    print_r($h[$rs].PHP_EOL);
 
+    $h =  explode("\n",$history);
+
+
+    for($i = 0; $i <= $rs;$i++){
+
+
+        print_r($h[$i].PHP_EOL);
+
+    }
 
 }
 
