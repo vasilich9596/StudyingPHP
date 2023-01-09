@@ -21,7 +21,7 @@ function calculator_get_command_function($command)
 {
     $commandRegistry = [
         'history' =>[
-            'nameFunc' => 'history',
+            'nameFunc' => 'get_history',
             'needCommand' => 1
         ],
 

@@ -8,12 +8,23 @@ function validation_to_run_func()
     $commandInfo = calculator_get_arguments_from_command();
     $commandFunction = calculator_get_command_function($commandInfo['commandName']);
 
+    if ($commandInfo['commandName'] == 'history') {
+
+        $historyFile = file_get_contents('history.txt');
+        $historyFile = explode("\n",$historyFile);
+
+        if ($commandInfo['arguments'][0] > count($historyFile)) {
+            throw  new Exception('history not have ' . $commandInfo['arguments'][0] . ' strings only ' . count($historyFile));
+        }
+    }
+
 //validate for name command
     if(!$commandInfo['commandName']){
         throw new Exception('NO pass command as first argument');
 //        trigger_error('NO pass command as first argument'.E_USER_ERROR);
 
     }
+
 //validate the command function to be on registry
     if(!$commandFunction){
         throw new Exception('unknown command '.$commandInfo['commandName']);
@@ -40,15 +51,13 @@ function validation_to_run_func()
            throw new Exception('u need a numeric command 1');
         }
     }
-
-    //if all right take result
-        $result = call_user_func_array($commandFunction['nameFunc'],$commandInfo['arguments']);
+//if all right take result
+    $result = call_user_func_array($commandFunction['nameFunc'],$commandInfo['arguments']);
 
     if ($commandInfo['commandName'] != 'history') {
+
         file_put_contents('history.txt', $commandInfo['commandName'] . ' result ' . $result . PHP_EOL, FILE_APPEND);
 
         print $commandInfo['commandName'] . ' result ' . $result . PHP_EOL;
     }
-
-
 }
