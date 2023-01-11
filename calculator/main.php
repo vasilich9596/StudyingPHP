@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__.'/calculator.php';
 
-//function what start validation (check) in validation.php
+//function what start validation (check) in  validation.php
 
 try {
    calculator_run();

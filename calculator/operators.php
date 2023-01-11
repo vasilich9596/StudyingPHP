@@ -92,6 +92,5 @@ function get_calculator_history($countHistories = null)
     }
 
     return implode(PHP_EOL,$normalizedHistories);
-
 }
 

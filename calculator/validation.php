@@ -8,7 +8,7 @@ function validation_to_run_calculator()
     $commandInfo = calculator_get_arguments_from_command();
     $commandFunction = calculator_get_command_function($commandInfo['commandName']);
 
-//validatiom for history
+//validation for history
 
     if ($commandInfo['commandName'] == 'history') {
         if (file_exists(CALCULATOR_HISTORY_FILE_PATH)) {

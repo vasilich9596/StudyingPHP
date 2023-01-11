@@ -110,7 +110,6 @@ function calculator_get_command_function($command)
         ]
     ];
 
-//if we have a command we can work
     if(array_key_exists($command,$commandRegistry)){
         return $commandRegistry[$command];
     }
