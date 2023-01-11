@@ -2,6 +2,20 @@
 
 include_once __DIR__.'/operators.php';
 include_once __DIR__.'/validation.php';
+include_once __DIR__.'/history.php';
+
+function calculator_run()
+{
+    $commandInfo = calculator_get_arguments_from_command();
+
+    $result = validation_to_run_calculator();
+
+    if ($commandInfo['commandName'] != 'history') {
+
+        calculator_history_add($commandInfo['commandName'],$commandInfo['arguments'],$result);
+    }
+    print $result . PHP_EOL;
+}
 
 //in validator.php its ($commandInfo)
 function calculator_get_arguments_from_command(): array
@@ -21,7 +35,7 @@ function calculator_get_command_function($command)
 {
     $commandRegistry = [
         'history' =>[
-            'nameFunc' => 'get_history',
+            'nameFunc' => 'get_calculator_history',
             'needCommand' => 1
         ],
 
@@ -47,7 +61,7 @@ function calculator_get_command_function($command)
 
         'pow' => [
             'nameFunc' => 'calculator_pov',
-            'needCommand' => 1
+            'needCommand' => 2
         ],
 
         'cos' => [
@@ -103,3 +117,4 @@ function calculator_get_command_function($command)
 
     return false;
 }
+
