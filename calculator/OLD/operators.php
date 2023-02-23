@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__.'/history.php';
+include_once __DIR__ . '/history.php';
 
 function calculator_add($ls, $rs)
 {

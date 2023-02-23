@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__.'/calculator.php';
+include_once __DIR__ . '/calculator.php';
 
 //function for validate arduments
 function validation_to_run_calculator()
