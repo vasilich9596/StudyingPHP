@@ -1,6 +1,9 @@
 <?php
 
-class SquareCalculatorCommand implements CalculatorCommandInterface
+
+namespace Calculator\Command;
+
+class DivCalculatorCommand implements CalculatorCommandInterface
 {
     /**
      * @param float $leftSide
@@ -9,6 +12,6 @@ class SquareCalculatorCommand implements CalculatorCommandInterface
      */
     public function calculate(?float $leftSide, ?float $rightSide): float
     {
-      return $leftSide * $rightSide;
+        return $leftSide / $rightSide;
     }
 }

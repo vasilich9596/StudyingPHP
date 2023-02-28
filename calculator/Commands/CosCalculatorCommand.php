@@ -1,16 +1,17 @@
 <?php
 
-class AddCalculatorCommand implements CalculatorCommandInterface
+namespace Calculator\Command;
+
+class CosCalculatorCommand implements CalculatorCommandInterface
 {
     /**
      * @param float $leftSide
      * @param float $rightSide
      * @return float
-     *
-     * @inheritDoc
      */
     public function calculate(?float $leftSide, ?float $rightSide): float
     {
-        return $leftSide + $rightSide;
+        $radian = deg2rad($leftSide);
+        return cos($radian);
     }
 }

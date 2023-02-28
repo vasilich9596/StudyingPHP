@@ -1,6 +1,8 @@
 <?php
 
-class SqrtCalculatorCommand implements CalculatorCommandInterface
+namespace Calculator\Command;
+
+class SinCalculatorCommand implements CalculatorCommandInterface
 {
     /**
      * @param float $leftSide
@@ -9,6 +11,7 @@ class SqrtCalculatorCommand implements CalculatorCommandInterface
      */
     public function calculate(?float $leftSide, ?float $rightSide): float
     {
-    return sqrt($leftSide);
+        $radian = deg2rad($leftSide);
+        return sin($radian);
     }
 }

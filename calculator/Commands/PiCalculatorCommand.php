@@ -1,6 +1,8 @@
 <?php
 
-class CubeCalculatorCommand implements CalculatorCommandInterface
+namespace Calculator\Command;
+
+class PiCalculatorCommand implements CalculatorCommandInterface
 {
     /**
      * @param float $leftSide
@@ -9,6 +11,6 @@ class CubeCalculatorCommand implements CalculatorCommandInterface
      */
     public function calculate(?float $leftSide, ?float $rightSide): float
     {
-        return $leftSide * $leftSide * $leftSide;
+        return pi();
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Calculator\Command;
+
 interface CalculatorCommandInterface
 {
     /**

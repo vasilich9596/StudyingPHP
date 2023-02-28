@@ -1,15 +1,18 @@
 <?php
 
-class SinCalculatorCommand implements CalculatorCommandInterface
+namespace Calculator\Command;
+
+class SubCalculatorCommand implements CalculatorCommandInterface
 {
     /**
      * @param float $leftSide
      * @param float $rightSide
      * @return float
+     *
+     * @inheritDoc
      */
     public function calculate(?float $leftSide, ?float $rightSide): float
     {
-        $radian = deg2rad($leftSide);
-        return sin($radian);
+        return $leftSide - $rightSide;
     }
 }

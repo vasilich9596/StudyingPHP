@@ -1,6 +1,8 @@
 <?php
 
-class PiCalculatorCommand implements CalculatorCommandInterface
+namespace Calculator\Command;
+
+class SqrtCalculatorCommand implements CalculatorCommandInterface
 {
     /**
      * @param float $leftSide
@@ -9,6 +11,6 @@ class PiCalculatorCommand implements CalculatorCommandInterface
      */
     public function calculate(?float $leftSide, ?float $rightSide): float
     {
-        return pi();
+    return sqrt($leftSide);
     }
 }
