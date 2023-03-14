@@ -14,11 +14,11 @@ use Calculator\Command\SinCalculatorCommand;
 use Calculator\Command\SqrtCalculatorCommand;
 use Calculator\Command\SquareCalculatorCommand;
 use Calculator\Command\SubCalculatorCommand;
+use Calculator\Validator\LeftAndRightExistenceValidator;
 use Calculator\Validator\OnlyLeftExistenceValidator;
 
 ini_set('display_errors', 1);
 ini_set('error_reporting', E_ALL);
-
 
 include_once __DIR__ . '/Commands/CalculatorCommandInterface.php';
 include_once __DIR__ . '/Validator/CalculatorArgumentsValidatorInterface.php';
@@ -38,26 +38,27 @@ include_once __DIR__ . '/Validator/LeftAndRightExistenceValidator.php';
 include_once __DIR__ . '/Validator/LeftAndRightNotExistenceValidator.php';
 include_once __DIR__ . '/Validator/OnlyLeftExistenceValidator.php';
 include_once __DIR__ . '/CalculatorCommandRegistry.php';
+include_once __DIR__ . '/CalculatorInterface.php';
 include_once __DIR__ . '/Calculator.php';
 include_once __DIR__ . '/Commands/AddCalculatorCommand.php';
+include_once __DIR__ . '/LoggingCalculatorDecorator.php';
 
 $registry = new CalculatorCommandRegistry();
-$registry->add('add', new AddCalculatorCommand(), new \Calculator\Validator\LeftAndRightExistenceValidator());
-$registry->add('sub', new SubCalculatorCommand(), new \Calculator\Validator\LeftAndRightExistenceValidator());
-$registry->add('mul', new MulCalculatorCommand(), new \Calculator\Validator\LeftAndRightExistenceValidator());
-$registry->add('div', new  DivCalculatorCommand(), new \Calculator\Validator\LeftAndRightExistenceValidator());
-$registry->add('abs', new AbsCalculatorCommand(), new  \Calculator\Validator\OnlyLeftExistenceValidator());
+$registry->add('add', new AddCalculatorCommand(), new LeftAndRightExistenceValidator());
+$registry->add('sub', new SubCalculatorCommand(), new LeftAndRightExistenceValidator());
+$registry->add('mul', new MulCalculatorCommand(), new LeftAndRightExistenceValidator());
+$registry->add('div', new  DivCalculatorCommand(), new LeftAndRightExistenceValidator());
+$registry->add('abs', new AbsCalculatorCommand(), new  OnlyLeftExistenceValidator());
 $registry->add('cos', new CosCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('cube', new CubeCalculatorCommand(), new OnlyLeftExistenceValidator());
-$registry->add('pi', new PiCalculatorCommand(), new \Calculator\Validator\LeftAndRightNotExistenceValidator());
-$registry->add('pow', new PowCalculatorCommand(), new \Calculator\Validator\LeftAndRightExistenceValidator());
+$registry->add('pi', new PiCalculatorCommand(), new  \Calculator\Validator\LeftAndRightNotExistenceValidator());
+$registry->add('pow', new PowCalculatorCommand(), new LeftAndRightExistenceValidator());
 $registry->add('sin', new SinCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('sqrt', new SqrtCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('square', new SquareCalculatorCommand(), new OnlyLeftExistenceValidator());
 
-
 $calculator = new Calculator($registry);
-
+$calculator = new \Calculator\LoggingCalculatorDecorator($calculator);
 $arguments = $_SERVER['argv'];
 
 array_shift($arguments);

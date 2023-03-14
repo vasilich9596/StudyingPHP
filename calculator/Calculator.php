@@ -2,7 +2,7 @@
 
 namespace Calculator;
 
-class Calculator
+class Calculator implements CalculatorInterface
 {
     private CalculatorCommandRegistry $registry;
 
