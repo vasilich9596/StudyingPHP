@@ -1,8 +1,8 @@
 <?php
 
-include_once __DIR__.'/operators.php';
-include_once __DIR__.'/validation.php';
-include_once __DIR__.'/history.php';
+include_once __DIR__ . '/operators.php';
+include_once __DIR__ . '/validation.php';
+include_once __DIR__ . '/history.php';
 
 function calculator_run()
 {
