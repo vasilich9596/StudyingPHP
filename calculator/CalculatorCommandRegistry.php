@@ -24,8 +24,6 @@ class CalculatorCommandRegistry
      *
      */
     public function add(string $commandName, CalculatorCommandInterface $command, CalculatorArgumentsValidatorInterface $validator): void
-
-
     {
         $this->commands[$commandName] = $command;
         $this->validators[$commandName] = $validator;
@@ -41,7 +39,7 @@ class CalculatorCommandRegistry
     public function getCommand(string $commandName): CalculatorCommandInterface
     {
         if (!array_key_exists($commandName, $this->commands)) {
-            throw new \Exception(sprintf('not have command %s', $commandName));
+            throw new \Exception(\sprintf('not have command %s', $commandName));
         }
 
         return $this->commands[$commandName];
