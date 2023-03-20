@@ -24,10 +24,14 @@ class LoggingCalculatorDecorator implements CalculatorInterface
 
         $result = $this->originCalculator->run($command, $left, $right);
 
+        $pdo = new \PDO('mysql:host=calculator_data;dbname=calculator_histories_database','vasilich','12345');
+
         $JsonLog = new HistoryLoggingJson();
         $JsonLog->jsonWrite($command, $left, $right, $result);
         $txtLog = new HistoryLoggingTxt();
         $txtLog->TxtWriter($command, $left, $right, $result);
+        $DBlog = new DBLogging($pdo);
+        $DBlog ->DBlog($command,$left,$right,$result);
 
         return $result;
 
