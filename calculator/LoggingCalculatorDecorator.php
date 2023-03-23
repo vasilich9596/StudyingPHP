@@ -1,8 +1,8 @@
 <?php
 
 namespace Calculator;
-include_once __DIR__ . '/HistoryLoggingJson.php';
-include_once __DIR__ . '/HistoryLoggingTxt.php';
+
+use Calculator\Logger\CalculatorLoggerInterface;
 
 class LoggingCalculatorDecorator implements CalculatorInterface
 {
@@ -12,11 +12,17 @@ class LoggingCalculatorDecorator implements CalculatorInterface
     private CalculatorInterface $originCalculator;
 
     /**
+     * @var CalculatorLoggerInterface
+     */
+    private CalculatorLoggerInterface $logger;
+
+    /**
      * @param CalculatorInterface $calculator
      */
-    public function __construct(CalculatorInterface $calculator)
+    public function __construct(CalculatorInterface $calculator, CalculatorLoggerInterface $logger)
     {
         $this->originCalculator = $calculator;
+        $this->logger = $logger;
     }
 
     public function run(string $command, ?float $left, ?float $right): float
@@ -24,14 +30,8 @@ class LoggingCalculatorDecorator implements CalculatorInterface
 
         $result = $this->originCalculator->run($command, $left, $right);
 
-        $pdo = new \PDO('mysql:host=calculator_data;dbname=calculator_histories_database','vasilich','12345');
+        $this->logger->log($command,$left, $right,$result);
 
-        $JsonLog = new HistoryLoggingJson();
-        $JsonLog->jsonWrite($command, $left, $right, $result);
-        $txtLog = new HistoryLoggingTxt();
-        $txtLog->TxtWriter($command, $left, $right, $result);
-        $DBlog = new DBLogging($pdo);
-        $DBlog ->DBlog($command,$left,$right,$result);
 
         return $result;
 

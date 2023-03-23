@@ -1,10 +1,13 @@
 <?php
 
-namespace Calculator;
+namespace Calculator\Logger;
 
-class HistoryLoggingJson
+use Calculator\Logger\CalculatorLoggerInterface;
+
+class HistoryLoggingJson implements CalculatorLoggerInterface
 {
-    public function jsonWrite($command, $left, $right, $result){
+    public function log(string $command, ?float $left, ?float $right, ?float $result):void
+    {
         $historyFile = __DIR__ . '/history.json';
         $history = [];
 

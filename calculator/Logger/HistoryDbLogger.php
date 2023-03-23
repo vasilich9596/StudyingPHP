@@ -2,7 +2,9 @@
 
 namespace Calculator;
 
-class DBLogging
+use Calculator\Logger\CalculatorLoggerInterface;
+
+class HistoryDbLogger implements CalculatorLoggerInterface
 {
     /**
      * @var \PDO
@@ -24,7 +26,7 @@ class DBLogging
      * @param float $result
      * @return void
      */
-    public function DBlog(string $command, ?float $left, ?float $right, float $result)
+    public function log(string $command, ?float $left, ?float $right, float $result):void
     {
     $sql = 'INSERT INTO calculator_history (command,left_operand,right_operand,result) values (?,?,?,?);';
 
