@@ -1,5 +1,6 @@
 <?php
 
+use App\Service\Calculator\Validator\NoopValidator;
 use Calculator\Calculator;
 use Calculator\CalculatorCommandRegistry;
 use Calculator\Command\AbsCalculatorCommand;
@@ -33,7 +34,7 @@ $registry->add('add', new AddCalculatorCommand(), new LeftAndRightExistenceValid
 $registry->add('sub', new SubCalculatorCommand(), new LeftAndRightExistenceValidator());
 $registry->add('mul', new MulCalculatorCommand(), new LeftAndRightExistenceValidator());
 $registry->add('div', new  DivCalculatorCommand(), new LeftAndRightExistenceValidator());
-$registry->add('abs', new AbsCalculatorCommand(), new  OnlyLeftExistenceValidator());
+$registry->add('abs', new AbsCalculatorCommand(), new  NoopValidator());
 $registry->add('cos', new CosCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('cube', new CubeCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('pi', new PiCalculatorCommand(), new  LeftAndRightNotExistenceValidator());

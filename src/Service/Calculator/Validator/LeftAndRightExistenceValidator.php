@@ -4,6 +4,9 @@ namespace App\Service\Calculator\Validator;
 
 class LeftAndRightExistenceValidator implements CalculatorArgumentsValidatorInterface
 {
+    /**
+     * @throws \Exception
+     */
     public function validate(?float $left, ?float $right): void
     {
         if (null === $left){
