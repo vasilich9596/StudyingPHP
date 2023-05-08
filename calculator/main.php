@@ -1,5 +1,6 @@
 <?php
 
+use App\Service\Calculator\Validator\NoopValidator;
 use Calculator\Calculator;
 use Calculator\CalculatorCommandRegistry;
 use Calculator\Command\AbsCalculatorCommand;
@@ -14,6 +15,10 @@ use Calculator\Command\SinCalculatorCommand;
 use Calculator\Command\SqrtCalculatorCommand;
 use Calculator\Command\SquareCalculatorCommand;
 use Calculator\Command\SubCalculatorCommand;
+use Calculator\Logger\HistoryLoggingJson;
+use Calculator\Logger\HistoryLoggingText;
+use Calculator\Logger\HistoryDbLogging;
+use Calculator\LoggingCalculatorDecorator;
 use Calculator\Validator\LeftAndRightExistenceValidator;
 use Calculator\Validator\LeftAndRightNotExistenceValidator;
 use Calculator\Validator\OnlyLeftExistenceValidator;
@@ -29,7 +34,7 @@ $registry->add('add', new AddCalculatorCommand(), new LeftAndRightExistenceValid
 $registry->add('sub', new SubCalculatorCommand(), new LeftAndRightExistenceValidator());
 $registry->add('mul', new MulCalculatorCommand(), new LeftAndRightExistenceValidator());
 $registry->add('div', new  DivCalculatorCommand(), new LeftAndRightExistenceValidator());
-$registry->add('abs', new AbsCalculatorCommand(), new  OnlyLeftExistenceValidator());
+$registry->add('abs', new AbsCalculatorCommand(), new  NoopValidator());
 $registry->add('cos', new CosCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('cube', new CubeCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('pi', new PiCalculatorCommand(), new  LeftAndRightNotExistenceValidator());
@@ -38,8 +43,11 @@ $registry->add('sin', new SinCalculatorCommand(), new OnlyLeftExistenceValidator
 $registry->add('sqrt', new SqrtCalculatorCommand(), new OnlyLeftExistenceValidator());
 $registry->add('square', new SquareCalculatorCommand(), new OnlyLeftExistenceValidator());
 
+$logger = new HistoryLoggingJson();
+
 $calculator = new Calculator($registry);
-$calculator = new \Calculator\LoggingCalculatorDecorator($calculator);
+$calculator = new LoggingCalculatorDecorator($calculator,$logger);
+
 $arguments = $_SERVER['argv'];
 
 array_shift($arguments);
@@ -53,13 +61,14 @@ $leftOperand = array_key_exists(1, $arguments) ? $arguments[1] : null;
 $rightOperand = $arguments[2] ?? null;
 
 if ($leftOperand && !is_numeric($leftOperand)) {
-    throw new Exception(sprintf('u need take left operand numeric u take "%s"' . $leftOperand));
+    throw new Exception(\sprintf('u need take left operand numeric u take "%s"' . $leftOperand));
 }
 if ($rightOperand && !is_numeric($rightOperand)) {
-    throw new Exception(sprintf('u need take left operand numeric u take "%s"' . $rightOperand));
+    throw new Exception(\sprintf('u need take left operand numeric u take "%s"' . $rightOperand));
 }
 
 $result = $calculator->run($commandName, $leftOperand, $rightOperand);
+
 
 print sprintf('command:"%s"; (left side: %f right side: %f). result %f',
         $commandName,
