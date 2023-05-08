@@ -1,22 +1,6 @@
 <?php
 
-function app_autoload(string $className): void
-{
-    $parts =  \explode('\\', $className);
+ini_set('display_errors',1);
+ini_set('error_reporting', E_ALL);
 
-    if ('App' !== $parts[0]){
-        return;
-    }
-
-    \array_shift($parts);
-
-    $sourceDirectory = __DIR__.'/../src/';
-    $classFile = $sourceDirectory.\implode('/', $parts).'.php';
-
-
-    if (\file_exists($classFile)){
-        include_once $classFile;
-    }
-}
-
-spl_autoload_register('app_autoload');
+include_once __DIR__.'/../vendor/autoload.php';
