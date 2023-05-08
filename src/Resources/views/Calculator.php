@@ -1,13 +1,5 @@
-<html lang="UA">
-<head>
-    <title>Calculator</title>
-</head>
-<body>
-<nav>
-    <a href="/">Home</a>
-    <a href="/calculator">Calculator</a>
-    <a href="/FAQ">FAQ</a>
-</nav>
+<?php include __DIR__.'/Fragment/header.php' ?>
+
 <h1>calculator</h1>
 <form method="post" action="/calculator">
     <div>
@@ -44,5 +36,5 @@
         </div>
     <?php endif; ?>
 </form>
-</body>
-</html>
+
+<?php include __DIR__.'/Fragment/footer.php' ?>
