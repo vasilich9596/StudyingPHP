@@ -8,6 +8,7 @@ use App\Controller\FaQ\FaqController;
 use App\Controller\HomeController;
 use App\Repository\BlogCommentRepository;
 use App\Repository\blogRepository;
+use App\Repository\FaqRepository;
 use App\Service\Calculator\Calculator;
 use App\Service\Calculator\CalculatorCommandRegistry;
 use App\Service\Calculator\Command\AbsCalculatorCommand;
@@ -24,6 +25,7 @@ use App\Service\Calculator\Command\SubCalculatorCommand;
 use App\Service\Calculator\Validator\LeftAndRightExistenceValidator;
 use App\Service\Calculator\Validator\NoopValidator;
 use App\Service\Calculator\Validator\OnlyLeftExistenceValidator;
+use App\Service\TemplateRenderer;
 use Symfony\Component\HttpFoundation\Request;
 
 include_once __DIR__ . '/../config/bootstrap.php';
@@ -33,9 +35,11 @@ $request = Request::createFromGlobals();
 $pdo = new \PDO('mysql:dbname=calculator_histories_database;host=learn-php-mysql', 'root', 'Q1w2e3r4');
 $blogRepository = new blogRepository($pdo);
 $blogCommentRepository = new BlogCommentRepository($pdo);
+$FaqRepository = new FaqRepository($pdo);
+$renderer = new TemplateRenderer();
 
 if ($request->getRequestUri() === '/') {
-    $controller = new HomeController();
+    $controller = new HomeController($renderer);
     $controller->HandleAction();
 
     exit();
@@ -65,7 +69,7 @@ if (strpos($request->getRequestUri(), '/calculator') === 0) {
 }
 
 if ($request->getRequestUri() === '/FAQ') {
-    $controller = new FaqController($pdo);
+    $controller = new FaqController($FaqRepository,$renderer);
     $controller->HandleAction();
 
     exit();
@@ -74,19 +78,19 @@ if ($request->getRequestUri() === '/FAQ') {
 if (strpos($request->getRequestUri(), '/Blogs') === 0) {
     if (\preg_match('#/Blogs/(\d+)#', $request->getRequestUri(), $parts)) {
 
-        $controller = new ViewBlogController($blogRepository, $blogCommentRepository);
+        $controller = new ViewBlogController($renderer,$blogRepository, $blogCommentRepository);
         $controller->handleAction($parts[1]);
 
         exit();
     }
     if ($request->getRequestUri()  == '/Blogs/comments/new') {
         $controller = new CreateBlogCommentController($blogCommentRepository);
-        $controller->handleAction();
+        $controller->handleAction($request);
 
       exit();
     }
 
-    $controller = new ListBlogsController($blogRepository);
+    $controller = new ListBlogsController($blogRepository,$renderer);
     $controller->HandleAction();
 
     exit();
