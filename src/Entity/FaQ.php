@@ -71,7 +71,7 @@ class FaQ
     public function setContentAnswer(? string $content_answer): void
     {
         if ($content_answer == null){
-            $content_answer = 'wait for answer';
+            $content_answer = '**wait for answer**';
         }
 
         $this->content_answer = $content_answer;

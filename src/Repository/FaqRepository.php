@@ -13,6 +13,19 @@ class FaqRepository
         $this->pdo = $pdo;
     }
 
+    public function save(FaQ $question): void
+    {
+        $sql = 'INSERT INTO Faq (created_at,content_question) VALUES (?,?)';
+
+        $now = new \DateTime();
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute([
+            $now->format('Y-m-d H:i:s'),
+            \htmlspecialchars($question->getContentQuestion())
+        ]);
+    }
+
     public function findAll(): array
     {
         $stmt = $this->pdo->prepare('SELECT * FROM Faq ORDER BY created_at DESC ');

@@ -4,6 +4,7 @@ use App\Controller\Blog\CreateBlogCommentController;
 use App\Controller\Blog\ListBlogsController;
 use App\Controller\Blog\ViewBlogController;
 use App\Controller\CalculatorController;
+use App\Controller\FaQ\CreateFaqQuestionController;
 use App\Controller\FaQ\FaqController;
 use App\Controller\HomeController;
 use App\Repository\BlogCommentRepository;
@@ -68,29 +69,37 @@ if (strpos($request->getRequestUri(), '/calculator') === 0) {
     exit();
 }
 
-if ($request->getRequestUri() === '/FAQ') {
-    $controller = new FaqController($FaqRepository,$renderer);
+if (strpos($request->getRequestUri(), '/FAQ') === 0) {
+    if ($request->getRequestUri() == '/FAQ/Question/new') {
+        $controller = new CreateFaqQuestionController($FaqRepository);
+        $controller->handleAction($request);
+
+        exit();
+    }
+
+    $controller = new FaqController($FaqRepository, $renderer);
     $controller->HandleAction();
 
     exit();
+
 }
 
 if (strpos($request->getRequestUri(), '/Blogs') === 0) {
     if (\preg_match('#/Blogs/(\d+)#', $request->getRequestUri(), $parts)) {
 
-        $controller = new ViewBlogController($renderer,$blogRepository, $blogCommentRepository);
+        $controller = new ViewBlogController($renderer, $blogRepository, $blogCommentRepository);
         $controller->handleAction($parts[1]);
 
         exit();
     }
-    if ($request->getRequestUri()  == '/Blogs/comments/new') {
+    if ($request->getRequestUri() == '/Blogs/comments/new') {
         $controller = new CreateBlogCommentController($blogCommentRepository);
         $controller->handleAction($request);
 
-      exit();
+        exit();
     }
 
-    $controller = new ListBlogsController($blogRepository,$renderer);
+    $controller = new ListBlogsController($blogRepository, $renderer);
     $controller->HandleAction();
 
     exit();

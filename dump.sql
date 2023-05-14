@@ -21,7 +21,7 @@ CREATE TABLE Faq (
                      id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                      created_at DATETIME NOT NULL,
                      content_question TEXT NOT NULL,
-                     content_answer TEXT NOT NULL
+                     content_answer TEXT
 )
 
 INSERT INTO (created_at, title, preview,content) VALUES ('2023-04-12 19:49:55', 'About me', 'Tell about me, my work, hobby etc', 'lorem ipsum');
