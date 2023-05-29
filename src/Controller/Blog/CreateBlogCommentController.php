@@ -8,9 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CreateBlogCommentController
 {
-    /**
-     * @var \PDO
-     */
+
     private BlogCommentRepository $commentRepository;
 
     /**
@@ -21,6 +19,7 @@ class CreateBlogCommentController
         $this->commentRepository = $commentRepository;
 
     }
+
 
     public function handleAction(Request $request): void
     {
